@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'bushe grotesque';
+    src: url('bushegrotesque-Regular.woff2') format('woff2'),
+        url('bushegrotesque-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+

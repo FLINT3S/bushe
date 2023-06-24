@@ -14,6 +14,10 @@ services:
     container_name: server
     image: siailyadev/bushe-delivery-backend:0.0.1
     restart: always
+    environment:
+      POSTGRES_DB:
+      POSTGRES_USER:
+      POSTGRES_PASSWORD:
     ports:
       - "3001:3000"
 

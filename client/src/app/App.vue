@@ -3,6 +3,7 @@
             :date-locale="dateRuRU"
             :locale="ruRU"
             :theme="appTheme"
+            :theme-overrides="themeOverrides"
     >
         <transition mode="out-in" name="fade">
             <component :is="layout">
@@ -27,6 +28,7 @@ import {darkTheme, dateRuRU, lightTheme, ruRU} from "naive-ui";
 
 import EmptyLayout from "@shared/ui/layout/TheEmptyLayout.vue";
 import {useRootStore} from "@shared/model/store/useRootStore";
+import themeOverrides from "@app/style/theme/naive-ui-theme-overrides.json";
 
 const route = useRoute()
 const root = useRootStore()
