@@ -1,4 +1,5 @@
 import bcrypt
+from fastapi import HTTPException
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
@@ -28,5 +29,8 @@ class UserService:
 
     async def check_user_password(self, login: str, plain_password: str):
         user = await self.get_user_by_login(login)
+        if not user:
+            raise HTTPException(401, "Неверный логин или пароль")
+
         return bcrypt.checkpw(str.encode(plain_password), str.encode(user.password))
 
