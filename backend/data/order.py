@@ -2,7 +2,7 @@ from typing import Optional
 
 from sqlmodel import SQLModel, Field, Relationship
 
-from backend.data.orderstatus import OrderStatus
+from data.orderstatus import OrderStatus
 
 
 class Order(SQLModel, Table=True):
