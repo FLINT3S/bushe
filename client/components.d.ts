@@ -14,6 +14,10 @@ declare module '@vue/runtime-core' {
     NConfigProvider: typeof import('naive-ui')['NConfigProvider']
     NDialogProvider: typeof import('naive-ui')['NDialogProvider']
     NMessageProvider: typeof import('naive-ui')['NMessageProvider']
+    NSpace: typeof import('naive-ui')['NSpace']
+    ProfileCard: typeof import('./src/components/profile/ProfileCard.vue')['default']
+    ProfileStatBtns: typeof import('./src/components/profile/ProfileStatBtns.vue')['default']
+    RatingIcon: typeof import('./src/components/ui/icons/RatingIcon.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
