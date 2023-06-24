@@ -7,7 +7,7 @@
       </div>
 
       <div class="profile-section row-cols-1">
-        <profile-stat-btns />
+        <ProfileStatistics />
       </div>
 
       <div class="profile-section row-cols-1">
@@ -19,15 +19,14 @@
 
 <script lang="ts" setup>
 import ProfileCard from "@/components/profile/ProfileCard.vue"
-import ProfileStatBtns from "@components/profile/ProfileStatBtns.vue";
+import ProfileStatistics from "@components/profile/ProfileStatistics.vue";
 </script>
 
 <style lang="scss" scoped>
-.container {
-  padding: 0 24px;
-}
 .profile-header{
   font-size: 32px;
-  margin-top:70px;
+  width: 100%;
+  line-height: 100%;
+
 }
 </style>

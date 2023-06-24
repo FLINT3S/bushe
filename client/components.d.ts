@@ -18,7 +18,6 @@ declare module '@vue/runtime-core' {
     NDivider: typeof import('naive-ui')['NDivider']
     NForm: typeof import('naive-ui')['NForm']
     NFormItem: typeof import('naive-ui')['NFormItem']
-    NH1: typeof import('naive-ui')['NH1']
     NH2: typeof import('naive-ui')['NH2']
     NH3: typeof import('naive-ui')['NH3']
     NH4: typeof import('naive-ui')['NH4']
@@ -32,11 +31,10 @@ declare module '@vue/runtime-core' {
     NMenu: typeof import('naive-ui')['NMenu']
     NMessageProvider: typeof import('naive-ui')['NMessageProvider']
     NSpace: typeof import('naive-ui')['NSpace']
-    NSwitch: typeof import('naive-ui')['NSwitch']
-    PlannedDeliveryTaskCard: typeof import('./src/components/deliveryTask/PlannedDeliveryTaskCard.vue')['default']
     ProfileCard: typeof import('./src/components/profile/ProfileCard.vue')['default']
-    ProfileStatBtns: typeof import('./src/components/profile/ProfileStatBtns.vue')['default']
+    ProfileStatistics: typeof import('./src/components/profile/ProfileStatistics.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    StatisticWidget: typeof import('./src/components/profile/StatisticWidget.vue')['default']
   }
 }
