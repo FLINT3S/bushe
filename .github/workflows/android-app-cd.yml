@@ -1,0 +1,47 @@
+name: Bushe delivery Android app CD
+
+on:
+  push:
+    branches: [ "master" ]
+    paths:
+      - 'client/**'
+      - 'app/**'
+
+jobs:
+  cd:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'oracle'
+          java-version: '11'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v2
+
+      - name: Set up NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Set up cordova
+        run: npm install -g cordova
+
+      - name: Install app dependencies
+        working-directory: ./app
+        run: npm install
+
+      - name: Install client dependencies and build
+        working-directory: ./client
+        run: |
+          yarn install
+          yarn run build
+
+      - name: Build application
+        working-directory: ./app
+        run: |
+          yarn run build:android
