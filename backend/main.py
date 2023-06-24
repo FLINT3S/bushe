@@ -1,14 +1,22 @@
 import os
 
-from starlette.middleware.cors import CORSMiddleware
-
 import uvicorn
+from sqlmodel import SQLModel
+from starlette.middleware.cors import CORSMiddleware
 
 from data.databaseservice import DatabaseService
 from services.service import APIService
 
-api = APIService(DatabaseService("postgresql+asyncpg://" + os.environ['POSTGRES_USER'] + ":"
-                                 + os.environ['POSTGRES_PASSWORD'] + "@185.154.193.39:5432/" + os.environ["POSTGRES_DB"]))
+database_service = DatabaseService(
+    f"postgresql+asyncpg://{os.environ['POSTGRES_USER']}:{os.environ['POSTGRES_PASSWORD']}@185.154.193.39:5432/{os.environ['POSTGRES_DB']}")
+api = APIService(database_service)
+
+
+@api.app.on_event("startup")
+async def init_db():
+    async with database_service.engine.begin() as conn:
+        await conn.run_sync(SQLModel.metadata.create_all)
+
 
 api.app.add_middleware(
     CORSMiddleware,
