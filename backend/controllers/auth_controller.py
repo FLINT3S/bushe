@@ -1,6 +1,6 @@
 import os
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
 from controllers.dto.login_data_dto import LoginDataDTO
 from data.databaseservice import DatabaseService
@@ -18,3 +18,4 @@ jwt_service = JWTService()
 async def login(login_data: LoginDataDTO):
     if await user_service.check_user_password(login_data.login, login_data.password):
         return {"accessToken": jwt_service.generate_jwt()}
+    raise HTTPException(401, "Неверный логин или пароль")
