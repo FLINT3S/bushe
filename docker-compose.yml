@@ -16,3 +16,21 @@ services:
     restart: always
     ports:
       - "3001:3000"
+
+  postgres:
+    container_name: bushe_delivery_db
+    image: postgres:14.5
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U admin -d bushe_delivery" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    environment:
+      POSTGRES_DB: "bushe_delivery"
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "ineedcoffee"
+      PGDATA: /var/lib/postgresql/data/some_name/
+    volumes:
+      - bd-database:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
