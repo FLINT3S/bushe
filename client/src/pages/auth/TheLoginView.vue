@@ -1,12 +1,10 @@
 <template>
-  <div>
-
-  </div>
+    <div class="container">
+        <n-card>
+            123
+        </n-card>
+    </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 </script>
-
-<style scoped>
-
-</style>

@@ -1,3 +1,6 @@
+@import "./lib/bootstrap-utilities.min.css";
+@import "./lib/bootstrap-grid.min.css";
+
 html, body {
     transition: background-color .3s ease;
 }
