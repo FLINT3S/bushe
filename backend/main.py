@@ -4,6 +4,8 @@ import uvicorn
 from sqlmodel import SQLModel
 from starlette.middleware.cors import CORSMiddleware
 
+from data.order import Order
+from data.orderstatus import OrderStatus
 from data.databaseservice import DatabaseService
 from services.service import APIService
 
