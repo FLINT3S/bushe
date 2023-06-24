@@ -1,3 +1,6 @@
 uvicorn
 fastapi
 starlette
+sqlmodel
+typing_extensions
+starlette
