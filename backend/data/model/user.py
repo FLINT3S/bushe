@@ -1,6 +1,6 @@
-from typing import Optional
+from typing import Optional, List
 
-from sqlmodel import SQLModel, Field
+from sqlmodel import SQLModel, Field, Relationship
 
 
 class User(SQLModel, table=True):
@@ -11,4 +11,5 @@ class User(SQLModel, table=True):
     password: str = Field(default=None, nullable=False)
     name: str = Field(default=None, nullable=False)
     surname: str = Field(default=None, nullable=False)
+    users: List["User"] = Relationship(back_populates="user")
 
