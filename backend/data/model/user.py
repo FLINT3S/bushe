@@ -11,5 +11,5 @@ class User(SQLModel, table=True):
     password: str = Field(default=None, nullable=False)
     name: str = Field(default=None, nullable=False)
     surname: str = Field(default=None, nullable=False)
-    delivery_tasks: List["User"] = Relationship(back_populates="user")
+    delivery_tasks: List["DeliveryTask"] = Relationship(back_populates="user")
 
