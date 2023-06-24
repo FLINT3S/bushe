@@ -1,14 +1,15 @@
 <template>
     <div>
         <div class="d-flex justify-content-between mb-3">
-            <n-h4 class="mb-0">доставка {{deliveryTaskItem.id}}</n-h4>
+            <n-h4 class="mb-0">доставка {{ deliveryTaskItem.id }}</n-h4>
             <n-button class="text-decoration-underline" text type="primary">
-                {{deliveryTaskItem.status.name}}
+                {{ deliveryTaskItem.status.name }}
             </n-button>
         </div>
 
         <n-card>
-            <div v-for="(deliveryTaskOrder, index) in deliveryTaskItem.orders" :class="{'mb-4': index < deliveryTaskItem.orders}">
+            <div v-for="(deliveryTaskOrder, index) in deliveryTaskItem.orders"
+                 :class="{'mb-4': index < deliveryTaskItem.orders.length - 1}">
                 <div class="d-flex align-items-center">
                     <arrow-right-icon/>
 
@@ -17,12 +18,12 @@
                     </span>
 
                     <span class="ms-auto">
-                        {{deliveryTaskOrder.deadlineFormat}}
+                        {{ deliveryTaskOrder.deadlineFormat }}
                     </span>
                 </div>
 
                 <div class="mt-1">
-                    {{deliveryTaskOrder.address}}
+                    {{ deliveryTaskOrder.address }}
                 </div>
             </div>
         </n-card>
