@@ -1,3 +1,10 @@
 .idea
 node_modules
 venv
+
+plugins
+platforms
+
+app/www/index.html
+/app/www/assets/
+/app/www/resources/
