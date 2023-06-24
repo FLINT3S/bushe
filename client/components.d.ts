@@ -9,10 +9,6 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    EmptyLayout: typeof import('./src/shared/ui/layout/TheEmptyLayout.vue')['default']
-    HomeView: typeof import('./src/pages/home/TheHomeView.vue')['default']
-    LoginView: typeof import('./src/pages/auth/TheLoginView.vue')['default']
-    MainLayout: typeof import('./src/shared/ui/layout/TheMainLayout.vue')['default']
     NButton: typeof import('naive-ui')['NButton']
     NConfigProvider: typeof import('naive-ui')['NConfigProvider']
     NDialogProvider: typeof import('naive-ui')['NDialogProvider']
