@@ -40,12 +40,15 @@ const user = ref({
 .profile-card-img {
   height: 108px;
   width: 108px;
-  margin-bottom: 15px;
 }
 .profile-card {
   font-size: 24px;
 }
 .profile-card-btn {
   margin-bottom: 15px;
+}
+.card-info {
+  font-size: 24px;
+  height: content-box;
 }
 </style>
