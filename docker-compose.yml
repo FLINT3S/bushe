@@ -17,6 +17,7 @@ services:
     environment:
       POSTGRES_DB:
       POSTGRES_USER:
+      JWT_SECRET:
       POSTGRES_PASSWORD:
     ports:
       - "3001:3000"
