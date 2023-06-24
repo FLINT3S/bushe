@@ -43,6 +43,7 @@ jobs:
 
       - name: Copy resources and client build to the app
         run: |
+          mkdir ./app/www
           cp -r ./client/dist/* ./app/www
           cp -r ./client/resources ./www/resources
 
