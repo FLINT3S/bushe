@@ -18,5 +18,7 @@ const props = withDefaults(defineProps<Props>(), {
 </script>
 
 <style scoped>
-
+* {
+    transition: all .3s ease;
+}
 </style>
