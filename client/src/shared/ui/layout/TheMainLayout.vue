@@ -8,7 +8,12 @@
                     </n-space>
                 </n-layout-header>
 
-                <n-layout :has-sider="windowWidth >= 992" position="absolute" style="top: 64px; bottom: 0">
+                <n-layout
+                        :has-sider="windowWidth >= 992"
+                        position="absolute"
+                        :native-scrollbar="windowWidth >= 992"
+                        style="top: 64px; bottom: 0"
+                >
                     <n-layout-sider
                             v-if="windowWidth >= 992"
                             :collapsed-width="64"
@@ -16,7 +21,7 @@
                             bordered
                             class="sider h-100"
                             collapse-mode="width"
-                            content-style="display: flex; flex-direction: column"
+                            content-style="display: flex; flex-direction: column; height: 100%"
                             inverted
                             show-trigger
                     >
@@ -44,17 +49,19 @@
                             :native-scrollbar="false"
                             content-style="padding: 24px 24px 0 24px;"
                     >
-                        <div>
+                        <n-layout
+                                :content-style="windowWidth < 992 ? 'padding-bottom: 86px' : 'padding-bottom: 32px'"
+                                :native-scrollbar="false"
+                        >
                             <slot></slot>
-                        </div>
+                        </n-layout>
                     </n-layout-content>
                 </n-layout>
 
                 <n-layout-footer v-if="windowWidth < 992" class="bottom-nav" position="fixed">
                     <div class="px-3 py-3 d-flex justify-content-around">
                         <router-link v-for="menuItem in menuItems" :to="menuItem.path">
-                            <component
-                                    :is="menuItem.icon(24, route.path === menuItem.path ? 'var(--orange-accent)' : 'white')"/>
+                            <component :is="menuItem.icon(24, route.path === menuItem.path ? 'var(--orange-accent)' : 'white')"/>
                         </router-link>
                     </div>
                 </n-layout-footer>
