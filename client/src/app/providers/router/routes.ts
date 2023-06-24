@@ -3,11 +3,8 @@ import {RouteRecordRaw} from "vue-router";
 
 export const routes: RouteRecordRaw[] = [
     {
-        path: '/',
-        component: () => import('@/pages/home/TheHomeView.vue'),
-        meta: {
-            layout: MainLayout
-        }
+        path: "/:pathMatch(.*)*",
+        redirect: "/profile"
     },
     {
         path: '/login',
@@ -16,5 +13,25 @@ export const routes: RouteRecordRaw[] = [
     {
         path: '/profile',
         component: () => import('@/pages/profile/TheProfileView.vue'),
+        meta: {
+            layout: MainLayout,
+            menuItemKey: "profile"
+        }
+    },
+    {
+        path: "/process",
+        component: () => import("@/pages/process/TheProcessView.vue"),
+        meta: {
+            layout: MainLayout,
+            menuItemKey: "process"
+        }
+    },
+    {
+        path: "/planned",
+        component: () => import("@/pages/planned/ThePlanningView.vue"),
+        meta: {
+            layout: MainLayout,
+            menuItemKey: "planned"
+        }
     }
 ]

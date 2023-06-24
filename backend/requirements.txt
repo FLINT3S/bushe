@@ -5,3 +5,5 @@ sqlmodel
 typing_extensions
 starlette
 asyncpg
+bcrypt
+pyjwt

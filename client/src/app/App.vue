@@ -32,6 +32,7 @@ import themeOverrides from "@app/style/theme/naive-ui-theme-overrides.json";
 
 const route = useRoute()
 const root = useRootStore()
+
 root.initTheme()
 
 const layout = computed(() => {
