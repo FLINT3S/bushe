@@ -13,5 +13,5 @@ html[theme="dark"] html, html[theme="dark"] body {
 }
 
 html[theme="light"] html, html[theme="light"] body {
-    background: rgb(244, 244, 244);
+    background: rgb(255, 255, 255);
 }

@@ -1,8 +1,9 @@
 <template>
   <div class="container">
     <div class="col">
+      <div class="profile-header"> личный кабинет</div>
       <div class="profile-section row-cols-1">
-        <profile-card :user="user" />
+        <profile-card />
       </div>
 
       <div class="profile-section row-cols-1">
@@ -19,10 +20,14 @@
 <script lang="ts" setup>
 import ProfileCard from "@/components/profile/ProfileCard.vue"
 import ProfileStatBtns from "@components/profile/ProfileStatBtns.vue";
-
-const user = {
-  userName: 'Иван',
-  userSurname: 'Иванов',
-  rating: 4.8
-}
 </script>
+
+<style lang="scss" scoped>
+.container {
+  padding: 0 24px;
+}
+.profile-header{
+  font-size: 32px;
+  margin-top:70px;
+}
+</style>
