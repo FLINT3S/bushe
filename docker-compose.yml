@@ -10,15 +10,9 @@ services:
     environment:
       - NODE_ENV=production
 
-  server:
+  backend:
     container_name: server
     image: siailyadev/bushe-delivery-backend:0.0.1
     restart: always
     ports:
-      - "3001:3001"
-    environment:
-      STRAPI_URL:
-      STRAPI_LOGIN:
-      STRAPI_PASSWORD:
-    depends_on:
-      - strapi-service
+      - "3001:3000"
