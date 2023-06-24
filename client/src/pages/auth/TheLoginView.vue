@@ -29,7 +29,7 @@
                         </n-button>
 
                         <n-collapse-transition :show="loginError !== ''">
-                            <n-alert v-if="loginError" class="mt-2" closable title="Ошибка логина" type="error"
+                            <n-alert v-if="loginError" class="mt-4" closable title="Ошибка логина" type="error"
                                      @close="loginError = ''">
                                 {{ loginError }}
                             </n-alert>

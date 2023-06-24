@@ -1,11 +1,39 @@
 @import "./lib/bootstrap-utilities.min.css";
 @import "./lib/bootstrap-grid.min.css";
-@import "./lib/bootstrap-reboot.min.css";
+/*@import "./lib/bootstrap-reboot.min.css";*/
 @import "./fonts/bushe-font.css";
+
+:root {
+    --orange-accent: #F0A72D;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
 
 html, body {
     transition: background-color .3s ease;
     font-family: "bushe grotesque", serif;
+    margin: 0;
+    padding: 0;
+}
+
+hr {
+    margin: 1rem 0;
+    color: inherit;
+    border: 0;
+    border-top: var(--bs-border-width) solid;
+    opacity: 0.25;
+}
+
+h6, h5, h4, h3, h2, h1 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--bs-heading-color);
 }
 
 html[theme="dark"] html, html[theme="dark"] body {
