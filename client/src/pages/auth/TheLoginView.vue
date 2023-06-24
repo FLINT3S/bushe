@@ -44,6 +44,7 @@
 <script lang="ts" setup>
 
 import {apiInstance} from "@shared/api/apiInstance";
+import {LocalStorageKeys} from "@shared/model/LocalStorageKeys";
 
 const router = useRouter()
 
@@ -55,9 +56,10 @@ const loginData = reactive({
 const loginError = ref("")
 
 const onClickSubmitLogin = () => {
-    apiInstance.post("/login", loginData)
-        .then(() => {
+    apiInstance.post("/auth/login", loginData)
+        .then((response) => {
             router.replace("/")
+            localStorage.setItem(LocalStorageKeys.ACCESS_TOKEN, response.data.accessToken)
         })
         .catch((reason) => {
             loginError.value = "Проверьте логин и пароль"
