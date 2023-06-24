@@ -1,7 +1,7 @@
 @import "./lib/bootstrap-utilities.min.css";
 @import "./lib/bootstrap-grid.min.css";
-/*@import "./lib/bootstrap-reboot.min.css";*/
 @import "./fonts/bushe-font.css";
+@import "animations.css";
 
 :root {
     --orange-accent: #F0A72D;
