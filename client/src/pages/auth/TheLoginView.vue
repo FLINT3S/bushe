@@ -3,7 +3,8 @@
         <div class="login-inner-container my-auto d-block mx-auto">
             <n-card class="w-100 login-card">
                 <div class="login-card__picture w-100">
-                    <img alt="" class="w-100 h-100" src="@shared/assets/img/login-cover.png">
+                    <img alt="" class="d-none d-md-block w-100 h-100" src="@shared/assets/img/login-cover.png">
+                    <img alt="" class="d-block d-md-none w-100 h-100" src="@shared/assets/img/login-cover-sm.png">
                 </div>
                 <div class="w-100 px-4 py-4 py-md-5 text-center">
                     <div class="d-flex">
