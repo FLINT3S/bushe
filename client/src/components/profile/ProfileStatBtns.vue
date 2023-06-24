@@ -1,24 +1,8 @@
 <template>
-  <div class="row row-cols-2">
-    <div class="col">
-      <n-card size="large">
-            Доставлено в этом месяце: {{stats.deliveriedMonth}}
-      </n-card>
-    </div>
-    <div class="col">
-      <n-card size="large">
-            Заработано в этом месяце: {{stats.earnedMonth}}
-      </n-card>
-    </div>
-    <div class="col">
-      <n-card size="large">
-            Доставлено всего: {{stats.deliveriedTotal}}
-      </n-card>
-    </div>
-    <div class="col">
-      <n-card size="large">
-            Заработано всего: {{stats.deliveriedTotal}}
-      </n-card>
+  <div class="stats__inner d-flex flex-column">
+    <div class="stats-header">статистика</div>
+    <div class="stats__widget">
+      <StatisticWidget />
     </div>
   </div>
 </template>
@@ -26,6 +10,7 @@
 <script lang="ts" setup>
 // import {apiInstance} from "@shared/api/apiInstance";
 import axios from "axios";
+import StatisticWidget from "@components/profile/StatisticWidget.vue";
 // TODO: authStore получить значение стора из pinia
 const authStore = {
   id: 1,
@@ -50,3 +35,9 @@ onMounted(async ()=>{
 })
 
 </script>
+
+<style scoped>
+.stats-header {
+  font-size: 16px;
+}
+</style>

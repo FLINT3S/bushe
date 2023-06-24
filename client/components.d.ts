@@ -26,5 +26,6 @@ declare module '@vue/runtime-core' {
     RatingIcon: typeof import('./src/components/ui/icons/RatingIcon.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    StatisticWidget: typeof import('./src/components/profile/StatisticWidget.vue')['default']
   }
 }

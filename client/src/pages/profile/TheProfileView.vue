@@ -7,7 +7,7 @@
       </div>
 
       <div class="profile-section row-cols-1">
-        <profile-stat-btns />
+        <ProfileStatBtns />
       </div>
 
       <div class="profile-section row-cols-1">
@@ -29,5 +29,7 @@ import ProfileStatBtns from "@components/profile/ProfileStatBtns.vue";
 .profile-header{
   font-size: 32px;
   margin-top:70px;
+  width: 100%;
+
 }
 </style>
