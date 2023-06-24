@@ -19,9 +19,9 @@ api.app.add_middleware(
 )
 
 
-@api.app.get("/")
+@api.app.get("/status")
 async def root():
-    return {"message": "Hello Bigger Applications!"}
+    return {"status": "OK"}
 
 
 if __name__ == "__main__":

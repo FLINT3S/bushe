@@ -4,3 +4,4 @@ starlette
 sqlmodel
 typing_extensions
 starlette
+asyncpg
