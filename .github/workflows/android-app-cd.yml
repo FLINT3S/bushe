@@ -45,7 +45,7 @@ jobs:
         run: |
           mkdir ./app/www
           cp -r ./client/dist/* ./app/www
-          cp -r ./client/resources ./www/resources
+          cp -r ./app/resources ./app/www/resources
 
       - name: Build application
         working-directory: ./app
