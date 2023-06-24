@@ -34,3 +34,8 @@ services:
       - bd-database:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+
+volumes:
+  bd-database:
+    external: true
+
