@@ -41,7 +41,18 @@ jobs:
           yarn install
           yarn run build
 
+      - name: Copy resources and client build to the app
+        run: |
+          cp -r ./client/dist/* ./app/www
+          cp -r ./client/resources ./www/resources
+
       - name: Build application
         working-directory: ./app
-        run: |
-          yarn run build:android
+        run: cordova build android
+
+      - name: Archive debug app artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Application
+          path: |
+            ./app/platforms/android/app/build/outputs/apk/debug/app-debug.apk
