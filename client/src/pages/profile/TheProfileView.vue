@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="col">
+    <div class="col" v-if='stats'>
       <n-h1 class="mb-2">личный кабинет</n-h1>
 
       <n-divider class="mt-2"/>
@@ -26,32 +26,32 @@ import ProfileIncome from "@components/profile/ProfileIncome.vue"
 import {useUserStore} from "@shared/model/store/useUserStore";
 import {apiInstance} from "@shared/api/apiInstance";
 
-let stats = ref({
-  delivered: {
-    perDay: 24,
-    perMonth: 64
-  },
-  earned: {
-    perDay: 1203,
-    perMonth: 25178
-  },
-  income: {
-    monday: 1492,
-    tuesday: 1357,
-    wednesday: 1518,
-    thursday: 1646,
-    friday: 1203,
-    saturday: 0,
-    sunday: 0
-  }
-})
+// let stats = ref({
+//   delivered: {
+//     perDay: 24,
+//     perMonth: 64
+//   },
+//   earned: {
+//     perDay: 1203,
+//     perMonth: 25178
+//   },
+//   income: {
+//     monday: 1492,
+//     tuesday: 1357,
+//     wednesday: 1518,
+//     thursday: 1646,
+//     friday: 1203,
+//     saturday: 0,
+//     sunday: 0
+//   }
+// })
+const stats = ref(null)
 
 const userStore = useUserStore()
 const courierId = userStore.currentUser?.id
 
 onMounted(async ()=>{
   const statsRes = await apiInstance.get(`/user/statistics/${courierId}`)
-  console.log(statsRes.data)
   if(statsRes) {
     stats.value = statsRes.data
   }

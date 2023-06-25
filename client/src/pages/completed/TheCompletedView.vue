@@ -50,7 +50,7 @@ onMounted(() => {
   apiInstance.post("/auth/check", {accessToken: localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN)})
       .then(response => {
         currentUser.value = plainToInstance(CurrentUser, response.data)
-        apiInstance.get(`/delivery-task/getUserTasks/${currentUser.value?.id}`)
+        apiInstance.get(`/delivery-task/resolved/${currentUser.value.id}`)
             .then((r) => {
               deliveryTasks.value = r.data.map((d: any) => plainToInstance(DeliveryTask, d)).filter((d: DeliveryTask) => d.orders.length > 0)
             })
