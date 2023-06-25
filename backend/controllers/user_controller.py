@@ -16,3 +16,8 @@ user_service = UserService(database_service=DatabaseService(
 @user_router.post("/create")
 async def create_user(user: CreateUserDTO):
     return await user_service.create_user(user.login, user.name, user.surname, user.password)
+
+
+@user_router.get("/getCouriers")
+async def get_couriers():
+    return await user_service.get_couriers()
