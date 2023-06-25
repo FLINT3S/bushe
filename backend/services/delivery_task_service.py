@@ -44,6 +44,7 @@ class DeliveryTaskService:
             st = select(DeliveryTask) \
                 .where(DeliveryTask.user_id == user_id) \
                 .where(DeliveryTask.date >= datetime.datetime.now().date()) \
+                .where(DeliveryTask.status_id < 4) \
                 .options(
                 selectinload(DeliveryTask.status),
                 selectinload(DeliveryTask.orders),
@@ -133,9 +134,10 @@ class DeliveryTaskService:
             tasks = result.scalars().all()
             return tasks
 
-    async def get_resolved_tasks(self):
+    async def get_resolved_tasks(self, user_id: int):
         async with AsyncSession(self.database_service.engine) as session:
             st = select(DeliveryTask) \
+                .where(DeliveryTask.user_id == user_id) \
                 .where(DeliveryTask.status_id == 5) \
                 .options(
                 selectinload(DeliveryTask.status),

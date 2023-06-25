@@ -29,7 +29,7 @@
                         <n-menu
                                 :collapsed-icon-size="22"
                                 :collapsed-width="64"
-                                :options="menuItems"
+                                :options="menuItemsFiltered"
                                 :value="selectedMenuItem"
                                 inverted
                         />
@@ -63,9 +63,8 @@
 
                 <n-layout-footer v-if="windowWidth < 992" class="bottom-nav" position="fixed">
                     <div class="px-3 py-3 d-flex justify-content-around">
-                        <router-link v-for="menuItem in menuItems" :to="menuItem.path">
-                            <component
-                                    :is="menuItem.icon(24, route.path === menuItem.path ? 'var(--orange-accent)' : 'white')"/>
+                        <router-link v-for="menuItem in menuItemsFiltered" :to="menuItem.path">
+                            <component :is="menuItem.icon(24, route.path === menuItem.path ? 'var(--orange-accent)' : 'white')"/>
                         </router-link>
                     </div>
                 </n-layout-footer>
@@ -78,12 +77,20 @@
 import {useRootStore} from "@shared/model/store/useRootStore";
 import {menuItems} from "@shared/ui/layout/menu/menuItems";
 import LogoutIcon from "@shared/ui/icon/LogoutIcon.vue";
+import {useUserStore} from "@shared/model/store/useUserStore";
+import {storeToRefs} from "pinia";
 
 const route = useRoute()
 const router = useRouter()
 const root = useRootStore()
+const userStore = useUserStore()
+const {currentUser} = storeToRefs(userStore)
 
 const windowWidth = ref(0)
+
+const menuItemsFiltered = computed(() => {
+    return menuItems.filter((m: any) => m?.roles?.includes(currentUser.value?.role))
+})
 
 const onClickThemeChange = () => {
     if (root.theme === 'dark') {

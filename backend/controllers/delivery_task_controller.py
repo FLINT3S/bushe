@@ -48,6 +48,6 @@ async def get_active_tasks():
     return await delivery_task_service.get_active_tasks()
 
 
-@delivery_task_router.get("/resolved", response_model=List[DeliveryTaskResponseDto])
-async def get_resolved_tasks():
-    return await delivery_task_service.get_resolved_tasks()
+@delivery_task_router.get("/resolved/{user_id}", response_model=List[DeliveryTaskResponseDto])
+async def get_resolved_tasks(user_id: int):
+    return await delivery_task_service.get_resolved_tasks(user_id)

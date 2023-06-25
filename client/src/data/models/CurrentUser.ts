@@ -3,4 +3,5 @@ export class CurrentUser {
     login!: string
     name!: string
     surname!: string
+    role!: number
 }

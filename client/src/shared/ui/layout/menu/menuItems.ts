@@ -28,30 +28,35 @@ export const menuItems: Array<MenuOption & {path: string, icon: any}> = [
         path: "/planned",
         label: () => renderLabel("запланированные", "/planned"),
         key: "planned",
-        icon: renderIcon(PlannedIcon)
+        icon: renderIcon(PlannedIcon),
+        roles: [1, 3]
     },
     {
         path: "/process",
         label: () => renderLabel("в процессе", "/process"),
         key: "process",
-        icon: renderIcon(ProcessIcon)
+        icon: renderIcon(ProcessIcon),
+        roles: [1, 3]
     },
     {
         path: "/profile",
         label: () => renderLabel("личный кабинет", "/profile"),
         key: "profile",
-        icon: renderIcon(ProfileIcon)
+        icon: renderIcon(ProfileIcon),
+        roles: [1, 3]
     },
     {
         path: "/manageOrders",
         label: () => renderLabel("управление заказами", "/manageOrders"),
         key: "manageOrders",
-        icon: renderIcon(ManagerIcon)
+        icon: renderIcon(ManagerIcon),
+        roles: [2, 3]
     },
     {
         path: "/manageDeliveryTasks",
         label: () => renderLabel("задачи на доставку", "/manageDeliveryTasks"),
         key: "manageDeliveryTasks",
-        icon: renderIcon(DeliveryTasksIcon)
+        icon: renderIcon(DeliveryTasksIcon),
+        roles: [2, 3]
     }
 ]
