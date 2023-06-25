@@ -27,6 +27,16 @@ class UserService:
             if result:
                 return result[0]
 
+    async def get_user_by_id(self, user_id: int):
+        async with AsyncSession(self.database_service.engine) as session:
+            st = select(User) \
+                .where(User.id == user_id) \
+                .limit(1)
+            result = (await session.execute(st)).first()
+
+            if result:
+                return result[0]
+
     async def check_user_password(self, login: str, plain_password: str):
         user = await self.get_user_by_login(login)
         if not user:
