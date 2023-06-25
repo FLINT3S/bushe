@@ -10,8 +10,8 @@
 
                 <n-layout
                         :has-sider="windowWidth >= 992"
-                        position="absolute"
                         :native-scrollbar="windowWidth >= 992"
+                        position="absolute"
                         style="top: 64px; bottom: 0"
                 >
                     <n-layout-sider
@@ -24,6 +24,7 @@
                             content-style="display: flex; flex-direction: column; height: 100%"
                             inverted
                             show-trigger
+                            @updateCollapsed="onUpdateCollapsed"
                     >
                         <n-menu
                                 :collapsed-icon-size="22"
@@ -34,13 +35,15 @@
                         />
 
                         <div class="mt-auto p-3">
-                            <n-button block type="primary" @click="onClickLogout">
-                                Выйти
+                            <n-collapse-transition :show="!isSiderCollapsed">
+                                <n-button block type="primary" @click="onClickLogout">
+                                    Выйти
 
-                                <template #icon>
-                                    <n-icon :component="LogoutIcon"/>
-                                </template>
-                            </n-button>
+                                    <template #icon>
+                                        <n-icon :component="LogoutIcon"/>
+                                    </template>
+                                </n-button>
+                            </n-collapse-transition>
                         </div>
                     </n-layout-sider>
 
@@ -93,8 +96,14 @@ const selectedMenuItem = computed(() => {
     return route.meta.menuItemKey
 })
 
+const isSiderCollapsed = ref(false)
+
 const onClickLogout = () => {
     router.push("/logout")
+}
+
+const onUpdateCollapsed = (v: boolean) => {
+    isSiderCollapsed.value = v
 }
 
 const onWindowResize = () => {

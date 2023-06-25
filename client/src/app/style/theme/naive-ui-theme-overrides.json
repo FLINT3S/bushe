@@ -10,5 +10,10 @@
   },
   "Card": {
     "color": "#F3F4F4FF"
+  },
+  "Checkbox": {
+    "sizeMedium": "24px",
+    "sizeLarge": "28px",
+    "sizeSmall": "16px"
   }
 }

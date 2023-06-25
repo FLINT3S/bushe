@@ -9,7 +9,8 @@
 
         <n-card>
             <div v-for="(deliveryTaskOrder, index) in deliveryTaskItem.orders"
-                 :class="{'mb-4': index < deliveryTaskItem.orders.length - 1}">
+                 :class="{'mb-4': index < deliveryTaskItem.orders.length - 1}"
+            >
                 <div class="d-flex align-items-center">
                     <arrow-right-icon/>
 
@@ -22,8 +23,14 @@
                     </span>
                 </div>
 
-                <div class="mt-1">
-                    {{ deliveryTaskOrder.address }}
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                    <div>
+                        {{ deliveryTaskOrder.address }}
+                    </div>
+
+                    <div v-if="checkOrders">
+                        <n-checkbox :checked="deliveryTaskOrder.isCompleted"/>
+                    </div>
                 </div>
             </div>
         </n-card>
@@ -35,10 +42,13 @@ import ArrowRightIcon from "@shared/ui/icon/ArrowRightIcon.vue";
 import {DeliveryTask} from "@data/models/DeliveryTask";
 
 interface Props {
-    deliveryTaskItem: DeliveryTask
+    deliveryTaskItem: DeliveryTask,
+    checkOrders?: boolean
 }
 
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+  checkOrders: false
+})
 </script>
 
 <style scoped>
