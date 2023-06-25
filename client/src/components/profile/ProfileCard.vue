@@ -8,7 +8,7 @@
             alt="Фото профиля"
         />
       </div>
-      <div class="profile-card__info">{{ `${user.name} ${user.surname}` }}</div>
+      <div class="profile-card__info">{{ `${user?.name} ${user?.surname}` }}</div>
 
     </div>
     <div class="profile-card__buttons d-flex flex-column">
