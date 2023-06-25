@@ -67,7 +67,11 @@ const onClickSubmitLogin = () => {
         .then((response) => {
             currentUser.value = plainToInstance(CurrentUser, response.data.user)
             localStorage.setItem(LocalStorageKeys.ACCESS_TOKEN, response.data.accessToken)
-            router.replace("/")
+            if ([1, 3].includes(currentUser.value?.role)) {
+                router.replace("/")
+            } else {
+                router.replace("/manageOrders")
+            }
         })
         .catch((reason) => {
             loginError.value = "Проверьте логин и пароль"
