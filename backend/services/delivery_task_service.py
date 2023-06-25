@@ -117,3 +117,13 @@ class DeliveryTaskService:
 
         return delivery_task
 
+    async def get_active_tasks(self):
+        async with AsyncSession(self.database_service.engine) as session:
+            st = select(DeliveryTask) \
+                .where(DeliveryTask.status_id >= 1) \
+                .where(DeliveryTask.status_id < 4) \
+
+            result = await session.execute(st)
+            tasks = result.scalars().all()
+            print(tasks)
+            return tasks
