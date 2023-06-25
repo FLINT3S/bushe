@@ -98,3 +98,10 @@ class UserService:
 
         return data
 
+    async def get_couriers(self):
+        async with AsyncSession(self.database_service.engine) as session:
+            st = select(User) \
+                .where(User.role == 1)
+
+            result = (await session.execute(st)).all()
+            return [dict(row.User) for row in result]

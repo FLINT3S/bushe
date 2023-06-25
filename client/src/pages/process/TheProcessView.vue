@@ -154,7 +154,10 @@ const onClickEndDelivery = () => {
 }
 
 const onClickConfirmApproveEndDelivery = () => {
-    console.log(123)
+    apiInstance.get(`/delivery-task/finish/${activeDeliveryTask.value?.id}`)
+        .then(() => {
+            router.replace("/profile")
+        })
 }
 
 let deliveryMap = reactive<any>(null)

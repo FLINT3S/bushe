@@ -21,3 +21,8 @@ async def create_user(user: CreateUserDTO):
 async def create_user(user_id: int):
     return await user_service.get_statistics(user_id)
 
+
+
+@user_router.get("/getCouriers")
+async def get_couriers():
+    return await user_service.get_couriers()
