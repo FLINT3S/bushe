@@ -53,6 +53,9 @@ const options = {
       }
     },
   },
+  tooltip: {
+    enabled: false,
+  },
   xaxis: {
     categories: ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
   },
