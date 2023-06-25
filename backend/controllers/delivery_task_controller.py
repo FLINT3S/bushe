@@ -43,3 +43,7 @@ async def change_status(delivery_task_change_status: DeliveryTaskChangeStatusDTO
 @delivery_task_router.get("/active")
 async def get_active_tasks():
     return await delivery_task_service.get_active_tasks()
+
+@delivery_task_router.get("/resolved")
+async def get_resolved_tasks():
+    return await delivery_task_service.get_resolved_tasks()

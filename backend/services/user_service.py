@@ -69,7 +69,6 @@ class UserService:
         today_orders_count = 0
         for delivery_task in delivery_tasks:
             if delivery_task.status_id == 5:
-                print(delivery_task)
                 if delivery_task.date.date() == datetime.datetime.now().date():
                     today_summary_way_len += delivery_task.delivery_way_len
                     today_orders_count += len(delivery_task.orders)

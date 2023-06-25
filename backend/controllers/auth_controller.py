@@ -29,7 +29,6 @@ async def login(login_data: LoginDataDTO):
 @auth_router.post("/check")
 async def check(token_data: CheckTokenDTO):
     decoded = jwt_service.check_jwt(token_data.accessToken)
-    print(decoded)
 
     if not decoded or not decoded.get("user_id"):
         raise HTTPException(403, "Ошибка проверки токена")

@@ -125,5 +125,13 @@ class DeliveryTaskService:
 
             result = await session.execute(st)
             tasks = result.scalars().all()
-            print(tasks)
+            return tasks
+
+    async def get_resolved_tasks(self):
+        async with AsyncSession(self.database_service.engine) as session:
+            st = select(DeliveryTask) \
+                .where(DeliveryTask.status_id == 5)
+
+            result = await session.execute(st)
+            tasks = result.scalars().all()
             return tasks
