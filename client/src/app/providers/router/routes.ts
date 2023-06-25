@@ -44,5 +44,12 @@ export const routes: RouteRecordRaw[] = [
             layout: MainLayout,
             menuItemKey: "planned"
         }
+    },
+    {
+        path: "/completed",
+        component: () => import("@/pages/completed/TheCompletedView.vue"),
+        meta: {
+            layout: MainLayout
+        }
     }
 ]
