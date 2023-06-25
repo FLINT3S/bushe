@@ -1,7 +1,6 @@
 import MainLayout from "@shared/ui/layout/TheMainLayout.vue";
 import {RouteRecordRaw} from "vue-router";
 import TheEmptyLayout from "@shared/ui/layout/TheEmptyLayout.vue";
-import TheManagerOrdersView from "@/pages/manage/TheManagerOrdersView.vue";
 
 export const routes: RouteRecordRaw[] = [
     {
@@ -52,6 +51,14 @@ export const routes: RouteRecordRaw[] = [
         meta: {
             layout: MainLayout,
             menuItemKey: "manageOrders"
+        }
+    },
+    {
+        path: "/manageDeliveryTasks",
+        component: () => import("@/pages/manage/TheManageDeliveryTasksView.vue"),
+        meta: {
+            layout: MainLayout,
+            menuItemKey: "manageDeliveryTasks"
         }
     }
 ]

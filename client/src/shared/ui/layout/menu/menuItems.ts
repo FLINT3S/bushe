@@ -5,6 +5,7 @@ import ProfileIcon from "@shared/ui/icon/ProfileIcon.vue";
 import {Component, VNodeChild} from "vue";
 import {RouterLink} from "vue-router";
 import ManagerIcon from "@shared/ui/icon/ManagerIcon.vue";
+import DeliveryTasksIcon from "@shared/ui/icon/DeliveryTasksIcon.vue";
 
 const renderIcon = (icon: Component) => {
     return (iconSize: string | number | undefined = undefined, color: string = "white") => h(NIcon, {size: iconSize}, {default: () => h(icon, {color})})
@@ -46,5 +47,11 @@ export const menuItems: Array<MenuOption & {path: string, icon: any}> = [
         label: () => renderLabel("управление заказами", "/manageOrders"),
         key: "manageOrders",
         icon: renderIcon(ManagerIcon)
+    },
+    {
+        path: "/manageDeliveryTasks",
+        label: () => renderLabel("задачи на доставку", "/manageDeliveryTasks"),
+        key: "manageDeliveryTasks",
+        icon: renderIcon(DeliveryTasksIcon)
     }
 ]
