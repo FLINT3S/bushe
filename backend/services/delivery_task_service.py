@@ -15,7 +15,8 @@ class DeliveryTaskService:
         self.database_service = database_service
 
     async def create_delivery_task(self, deliveryTaskDTO: DeliveryTaskDTO):
-        created_delivery_task = DeliveryTask(user_id=deliveryTaskDTO.user_id, status_id=1)
+        created_delivery_task = DeliveryTask(user_id=deliveryTaskDTO.user_id, status_id=1, delivery_way_len=deliveryTaskDTO.delivery_way_len,
+                                             date=datetime.datetime.combine(datetime.datetime.now().date(), datetime.time(0, 0)))
         await self.database_service.save(created_delivery_task)
 
         for order_id in deliveryTaskDTO.orders:
