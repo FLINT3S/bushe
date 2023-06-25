@@ -1,3 +1,6 @@
+import datetime
+
+from sqlalchemy.orm import joinedload
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
@@ -22,7 +25,6 @@ class DeliveryTaskService:
 
         return created_delivery_task
 
-
     async def get_order_by_id(self, id: int):
         async with AsyncSession(self.database_service.engine) as session:
             st = select(Order) \
@@ -30,5 +32,29 @@ class DeliveryTaskService:
                 .limit(1)
             result = (await session.execute(st)).first()
 
+            if result:
+                return result[0]
+
+    async def get_user_tasks(self, user_id: int):
+        async with AsyncSession(self.database_service.engine) as session:
+            st = select(DeliveryTask) \
+                .where(DeliveryTask.user_id == user_id) \
+                .where(DeliveryTask.date >= datetime.datetime.now().date())
+
+            result = await session.execute(st)
+            return [dict(row.DeliveryTask) for row in result]
+
+    async def get_users_active_task(self, user_id: int) -> DeliveryTask:
+        async with AsyncSession(self.database_service.engine) as session:
+            st = select(DeliveryTask) \
+                .where(DeliveryTask.user_id == user_id) \
+                .where(DeliveryTask.status_id == 4) \
+                .options(
+                joinedload(DeliveryTask.status),
+                joinedload(DeliveryTask.orders),
+                joinedload(DeliveryTask.user)
+            )
+
+            result = (await session.execute(st)).first()
             if result:
                 return result[0]

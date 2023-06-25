@@ -17,5 +17,8 @@ jwt_service = JWTService()
 @auth_router.post("/login")
 async def login(login_data: LoginDataDTO):
     if await user_service.check_user_password(login_data.login, login_data.password):
-        return {"accessToken": jwt_service.generate_jwt()}
+        return {
+            "accessToken": jwt_service.generate_jwt(),
+            "user": await user_service.get_user_by_login(login_data.login)
+        }
     raise HTTPException(401, "Неверный логин или пароль")
