@@ -8,7 +8,6 @@
             <delivery-task-card v-if="activeDeliveryTask && !loading" :delivery-task-item="activeDeliveryTask!" check-orders/>
             <n-skeleton v-else height="400px" width="100%"></n-skeleton>
 
-            {{ nextOrder }}
             <div v-if="!nextOrder" class="text-center mt-3">
                 <n-h2 class="mb-2">Все заказы доставлены!</n-h2>
                 <n-h4 class="mt-0">Возвращайтесь на точку</n-h4>
@@ -75,7 +74,7 @@ const nextOrder = computed(() => {
     }
 
     const activeOrderIndex = activeDeliveryTask.value?.orders?.findIndex(order => order?.id === activeOrder.value?.id)
-    if (!activeOrderIndex || activeOrderIndex + 1 >= activeDeliveryTask.value?.orders?.length!) {
+    if ((!activeOrderIndex && activeOrderIndex !== 0) || activeOrderIndex + 1 >= activeDeliveryTask.value?.orders?.length!) {
         return null
     }
 
