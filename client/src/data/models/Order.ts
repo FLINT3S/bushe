@@ -17,4 +17,8 @@ export class Order {
     get deadlineFormat() {
         return `${String(this.deadline.getHours()).padStart(2, '0')}:${String(this.deadline.getMinutes()).padStart(2, '0')}`;
     }
+
+    get isCompleted() {
+        return this.status.name === "Заказ доставлен"
+    }
 }

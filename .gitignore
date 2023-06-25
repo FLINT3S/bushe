@@ -8,3 +8,5 @@ platforms
 app/www/index.html
 /app/www/assets/
 /app/www/resources/
+
+/client/components.d.ts
