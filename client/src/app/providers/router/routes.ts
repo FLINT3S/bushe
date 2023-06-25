@@ -46,6 +46,13 @@ export const routes: RouteRecordRaw[] = [
         }
     },
     {
+        path: "/completed",
+        component: () => import("@/pages/completed/TheCompletedView.vue"),
+        meta: {
+            layout: MainLayout
+        }
+    },
+    {
         path: "/manageOrders",
         component: () => import("@/pages/manage/TheManagerOrdersView.vue"),
         meta: {
