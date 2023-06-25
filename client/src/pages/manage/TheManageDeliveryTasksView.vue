@@ -4,11 +4,13 @@
 
         <n-divider class="mt-2"/>
 
-        <div v-if="deliveryTasks.length >= 1 || loading">
+        <n-input v-model:value="searchQuery" class="mb-3" placeholder="Поиск по задачам"/>
+
+        <div v-if="filteredTasks.length >= 1 || loading">
             <div v-if="!loading" class="row">
-                <div v-for="(deliveryTaskItem, index) in deliveryTasks" class="col-12 col-lg-6 col-xl-4">
-                    <delivery-task-card :delivery-task-item="deliveryTaskItem"/>
-                    <n-divider v-if="index < deliveryTasks.length - 1"/>
+                <div v-for="(deliveryTaskItem, index) in filteredTasks" class="col-12 col-lg-6 col-xl-4">
+                    <delivery-task-card @update="fetchActiveTasks" :delivery-task-item="deliveryTaskItem" change-status disable-status/>
+                    <n-divider v-if="index < filteredTasks.length - 1"/>
                 </div>
             </div>
 
@@ -31,13 +33,31 @@
 import DeliveryTaskCard from "@components/deliveryTask/DeliveryTaskCard.vue";
 import {DeliveryTask} from "@data/models/DeliveryTask";
 import EmptyIcon from "@shared/ui/icon/EmptyIcon.vue";
+import {apiInstance} from "@shared/api/apiInstance";
+import {plainToInstance} from "class-transformer";
 
 const deliveryTasks = ref<DeliveryTask[]>([])
 const loading = ref(true)
 
+const searchQuery = ref("")
+
+const filteredTasks = computed(() => {
+    return deliveryTasks.value.filter(t => {
+        return t.user.fullName.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+            t.orders.some(o => o.address.toLowerCase().includes(searchQuery.value.toLowerCase()))
+    })
+})
+
 const fetchActiveTasks = () => {
-    console.log(123)
+    apiInstance.get("/delivery-task/active")
+        .then((r) => {
+            deliveryTasks.value = r.data.map((t: any) => plainToInstance(DeliveryTask, t))
+        })
+        .finally(() => {
+            loading.value = false
+        })
 }
+
 
 onMounted(() => {
     fetchActiveTasks()

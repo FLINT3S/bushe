@@ -74,11 +74,11 @@ const nextOrder = computed(() => {
     }
 
     const activeOrderIndex = activeDeliveryTask.value?.orders?.findIndex(order => order?.id === activeOrder.value?.id)
-    if ((!activeOrderIndex && activeOrderIndex !== 0) || activeOrderIndex + 1 >= activeDeliveryTask.value?.orders?.length!) {
+    if ((!activeOrderIndex && activeOrderIndex !== 0) || activeOrderIndex > activeDeliveryTask.value?.orders?.length!) {
         return null
     }
 
-    return activeDeliveryTask.value?.orders[activeOrderIndex + 1]
+    return activeDeliveryTask.value?.orders[activeOrderIndex]
 })
 
 const fromAddress = computed(() => {
