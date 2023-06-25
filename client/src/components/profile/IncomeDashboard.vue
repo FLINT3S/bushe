@@ -17,15 +17,30 @@ interface Props {
   }
 }
 const props = defineProps<Props>()
-
+const ind = ref(0);
 const options = {
-  colors: ['#CACDD0'],
+  // colors: ['#CACDD0'],
+  colors: [
+    function({ value, seriesIndex, w}: {value: any, seriesIndex: any, w: any}) {
+    if (value > 7000) {
+        return '#F0A72D'
+      } else {
+        return '#CACDD0'
+      }
+    }
+  ],
   plotOptions: {
     bar: {
       dataLabels: {
         position: 'top',
       },
     },
+  },
+  dataLabels: {
+    offsetY: -25,
+    style: {
+      colors: ['#333']
+    }
   },
   chart: {
     toolbar: {
