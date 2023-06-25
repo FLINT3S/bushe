@@ -22,6 +22,7 @@ class DeliveryTaskService:
         for order_id in deliveryTaskDTO.orders:
             order = await self.get_order_by_id(order_id)
             order.delivery_task_id = created_delivery_task.id
+            order.status_id = 1
             await self.database_service.save(order)
 
         return created_delivery_task
