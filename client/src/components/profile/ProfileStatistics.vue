@@ -4,6 +4,9 @@
     <div class="stats__widget">
       <StatisticWidget :mode="'заработано'" :values="stats.earned"/>
       <StatisticWidget :mode="'доставлено'" :values="stats.delivered"/>
+      <n-button block class="mb-3" type="primary" secondary>
+          Связь с менеджером
+      </n-button>
       <OrderHistoryButton to="/completed">история заказов</OrderHistoryButton>
     </div>
   </div>
