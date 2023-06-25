@@ -17,9 +17,13 @@ export class Order {
     status!: OrderStatus;
 
     status_id?: number
-    
+
     get deadlineFormat() {
         return `${String(this.deadline.getHours()).padStart(2, '0')}:${String(this.deadline.getMinutes()).padStart(2, '0')}`;
+    }
+
+    get deadlineDateTimeFormat() {
+        return `${String(this.deadline.getDate()).padStart(2, '0')}.${String(this.deadline.getMonth()).padStart(2, '0')} ${String(this.deadline.getHours()).padStart(2, '0')}:${String(this.deadline.getMinutes()).padStart(2, '0')}`;
     }
 
     get isCompleted() {

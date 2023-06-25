@@ -14,3 +14,4 @@ class OrderResponseDto(BaseModel):
     weight: int
     status: OrderStatus
     delivery_task: Optional[DeliveryTask]
+    restaurant_address: str
