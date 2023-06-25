@@ -140,4 +140,12 @@ aside.sider {
     background: #000;
     color: white;
 }
+
+#app > div > main > div > div > div > div > div.n-layout.n-layout--absolute-positioned > div > div.n-scrollbar-container > div > div > div > div.n-scrollbar-container > div {
+    padding: 12px 12px 0 12px!important;
+
+    @media screen and (min-width: 768px) {
+        padding: 24px 24px 0 24px;
+    }
+}
 </style>

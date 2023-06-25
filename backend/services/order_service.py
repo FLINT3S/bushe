@@ -5,6 +5,7 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 from controllers.dto.order_dto import OrderDTO
 from data.databaseservice import DatabaseService
 from data.model.order import Order
+from data.model.user import User
 
 
 class OrderService:

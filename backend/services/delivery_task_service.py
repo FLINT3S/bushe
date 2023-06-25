@@ -15,12 +15,14 @@ class DeliveryTaskService:
         self.database_service = database_service
 
     async def create_delivery_task(self, deliveryTaskDTO: DeliveryTaskDTO):
-        created_delivery_task = DeliveryTask(user_id=deliveryTaskDTO.user_id, status_id=1)
+        created_delivery_task = DeliveryTask(user_id=deliveryTaskDTO.user_id, status_id=1, delivery_way_len=deliveryTaskDTO.delivery_way_len,
+                                             date=datetime.datetime.combine(datetime.datetime.now().date(), datetime.time(0, 0)))
         await self.database_service.save(created_delivery_task)
 
         for order_id in deliveryTaskDTO.orders:
             order = await self.get_order_by_id(order_id)
             order.delivery_task_id = created_delivery_task.id
+            order.status_id = 1
             await self.database_service.save(order)
 
         return created_delivery_task
@@ -40,6 +42,20 @@ class DeliveryTaskService:
             st = select(DeliveryTask) \
                 .where(DeliveryTask.user_id == user_id) \
                 .where(DeliveryTask.date >= datetime.datetime.now().date()) \
+                .options(
+                selectinload(DeliveryTask.status),
+                selectinload(DeliveryTask.orders),
+                selectinload(DeliveryTask.user)
+            )
+
+            result = await session.execute(st)
+            tasks = result.scalars().all()
+            return tasks
+
+    async def get_all_user_tasks(self, user_id: int):
+        async with AsyncSession(self.database_service.engine) as session:
+            st = select(DeliveryTask) \
+                .where(DeliveryTask.user_id == user_id) \
                 .options(
                 selectinload(DeliveryTask.status),
                 selectinload(DeliveryTask.orders),
@@ -84,13 +100,19 @@ class DeliveryTaskService:
 
     async def finish_delivery_task_by_id(self, id: int):
         delivery_task = await self.get_delivery_task_by_id(id)
-        print(delivery_task)
         orders = delivery_task.orders
 
         for order in orders:
             order.status_id = 4
             await self.database_service.save(order)
         delivery_task.status_id = 5
+        await self.database_service.save(delivery_task)
+
+        return delivery_task
+
+    async def change_status(self, delivery_status_id: int, new_status_id: int):
+        delivery_task = await self.get_delivery_task_by_id(delivery_status_id)
+        delivery_task.status_id = new_status_id
         await self.database_service.save(delivery_task)
 
         return delivery_task
