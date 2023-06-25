@@ -30,6 +30,7 @@ import deliveryTasks from "@/data/mock/deliveryTasks.json"
 import {DeliveryTask} from "@data/models/DeliveryTask";
 import {plainToInstance} from "class-transformer";
 import DeliveryTaskCard from "@components/deliveryTask/DeliveryTaskCard.vue";
+import {apiInstance} from "@shared/api/apiInstance";
 
 const dialog = useDialog()
 const message = useMessage()
@@ -53,6 +54,7 @@ const nextOrder = computed(() => {
 })
 
 const fetchActiveOrder = () => {
+    apiInstance.get("/")
     setTimeout(() => {
         activeDeliveryTask.value = plainToInstance(DeliveryTask, deliveryTasks[0])
 
@@ -66,7 +68,7 @@ const fetchActiveOrder = () => {
             })
 
             nextTick(() => {
-                window.ymaps.ready(renderRoute);
+                // window.ymaps.ready(renderRoute);
             })
         })
     }, 1000)

@@ -45,8 +45,15 @@
 
 import {apiInstance} from "@shared/api/apiInstance";
 import {LocalStorageKeys} from "@shared/model/LocalStorageKeys";
+import {useUserStore} from "@shared/model/store/useUserStore";
+import {storeToRefs} from "pinia";
+import {plainToInstance} from "class-transformer";
+import {CurrentUser} from "@data/models/CurrentUser";
 
 const router = useRouter()
+const userStore = useUserStore()
+
+const {currentUser} = storeToRefs(userStore)
 
 const loginData = reactive({
     login: "",
@@ -58,8 +65,9 @@ const loginError = ref("")
 const onClickSubmitLogin = () => {
     apiInstance.post("/auth/login", loginData)
         .then((response) => {
-            router.replace("/")
+            currentUser.value = plainToInstance(CurrentUser, response.data.user)
             localStorage.setItem(LocalStorageKeys.ACCESS_TOKEN, response.data.accessToken)
+            router.replace("/")
         })
         .catch((reason) => {
             loginError.value = "Проверьте логин и пароль"
