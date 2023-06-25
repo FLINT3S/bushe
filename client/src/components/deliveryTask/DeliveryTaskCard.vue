@@ -2,7 +2,7 @@
     <div>
         <div class="d-flex justify-content-between mb-3">
             <n-h4 class="mb-0">доставка {{ deliveryTaskItem.id }}</n-h4>
-            <n-button class="text-decoration-underline" text type="primary">
+            <n-button v-if="!disableStatus" class="text-decoration-underline" text type="primary">
                 {{ deliveryTaskItem.status.name }}
             </n-button>
         </div>
@@ -43,11 +43,13 @@ import {DeliveryTask} from "@data/models/DeliveryTask";
 
 interface Props {
     deliveryTaskItem: DeliveryTask,
-    checkOrders?: boolean
+    checkOrders?: boolean,
+    disableStatus?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  checkOrders: false
+    checkOrders: false,
+    disableStatus: false
 })
 </script>
 
