@@ -11,9 +11,7 @@
                     <n-message-provider>
                         <router-view v-slot="{ Component }">
                             <transition mode="out-in" name="fade">
-                                <keep-alive>
-                                    <component :is="Component"/>
-                                </keep-alive>
+                                <component :is="Component"/>
                             </transition>
                         </router-view>
                     </n-message-provider>
