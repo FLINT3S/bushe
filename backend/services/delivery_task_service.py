@@ -52,6 +52,20 @@ class DeliveryTaskService:
             tasks = result.scalars().all()
             return tasks
 
+    async def get_all_user_tasks(self, user_id: int):
+        async with AsyncSession(self.database_service.engine) as session:
+            st = select(DeliveryTask) \
+                .where(DeliveryTask.user_id == user_id) \
+                .options(
+                selectinload(DeliveryTask.status),
+                selectinload(DeliveryTask.orders),
+                selectinload(DeliveryTask.user)
+            )
+
+            result = await session.execute(st)
+            tasks = result.scalars().all()
+            return tasks
+
     async def get_users_active_task(self, user_id: int) -> DeliveryTask:
         async with AsyncSession(self.database_service.engine) as session:
             st = select(DeliveryTask) \
@@ -86,7 +100,6 @@ class DeliveryTaskService:
 
     async def finish_delivery_task_by_id(self, id: int):
         delivery_task = await self.get_delivery_task_by_id(id)
-        print(delivery_task)
         orders = delivery_task.orders
 
         for order in orders:
