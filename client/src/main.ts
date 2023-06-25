@@ -1,4 +1,4 @@
-import {createApp} from 'vue'
+import {createApp, Suspense} from 'vue'
 import {router} from "@app/providers/router/router";
 import {store} from "@app/providers/store/pinia";
 

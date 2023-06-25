@@ -9,16 +9,20 @@ export class Order {
 
     address!: string;
 
+    restaurant_address!: string;
+
     weight!: number;
 
     @Type(() => OrderStatus)
     status!: OrderStatus;
 
+    status_id?: number
+    
     get deadlineFormat() {
         return `${String(this.deadline.getHours()).padStart(2, '0')}:${String(this.deadline.getMinutes()).padStart(2, '0')}`;
     }
 
     get isCompleted() {
-        return this.status.name === "Заказ доставлен"
+        return this.status_id === 4
     }
 }

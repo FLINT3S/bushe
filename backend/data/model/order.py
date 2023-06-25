@@ -12,6 +12,7 @@ class Order(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     deadline: datetime = Field(default=None, nullable=False)
     address: str = Field(nullable=False)
+    restaurant_address: str = Field(nullable=False)
     weight: int = Field(nullable=False)
     status_id: int = Field(foreign_key="orderstatus.id")
     status: Optional["OrderStatus"] = Relationship(

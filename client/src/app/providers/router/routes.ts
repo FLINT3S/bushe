@@ -1,5 +1,6 @@
 import MainLayout from "@shared/ui/layout/TheMainLayout.vue";
 import {RouteRecordRaw} from "vue-router";
+import TheEmptyLayout from "@shared/ui/layout/TheEmptyLayout.vue";
 
 export const routes: RouteRecordRaw[] = [
     {
@@ -8,11 +9,17 @@ export const routes: RouteRecordRaw[] = [
     },
     {
         path: '/login',
-        component: () => import("@/pages/auth/TheLoginView.vue")
+        component: () => import("@/pages/auth/TheLoginView.vue"),
+        meta: {
+            layout: TheEmptyLayout
+        }
     },
     {
         path: "/logout",
-        component: () => import("@/pages/auth/TheLogoutView.vue")
+        component: () => import("@/pages/auth/TheLogoutView.vue"),
+        meta: {
+            layout: TheEmptyLayout
+        }
     },
     {
         path: '/profile',

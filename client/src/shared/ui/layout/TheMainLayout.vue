@@ -64,7 +64,8 @@
                 <n-layout-footer v-if="windowWidth < 992" class="bottom-nav" position="fixed">
                     <div class="px-3 py-3 d-flex justify-content-around">
                         <router-link v-for="menuItem in menuItems" :to="menuItem.path">
-                            <component :is="menuItem.icon(24, route.path === menuItem.path ? 'var(--orange-accent)' : 'white')"/>
+                            <component
+                                    :is="menuItem.icon(24, route.path === menuItem.path ? 'var(--orange-accent)' : 'white')"/>
                         </router-link>
                     </div>
                 </n-layout-footer>

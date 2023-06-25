@@ -5,8 +5,6 @@ from fastapi import APIRouter
 from controllers.dto.delivery_task_dto import DeliveryTaskDTO
 from controllers.dto.response.delivery_task_response_dto import DeliveryTaskResponseDto
 from data.databaseservice import DatabaseService
-from data.model.deliverytask import DeliveryTask
-from data.model.deliverytaskstatus import DeliveryTaskStatus
 from services.delivery_task_service import DeliveryTaskService
 
 delivery_task_router = APIRouter()
@@ -26,7 +24,7 @@ async def get_user_tasks(user_id: int):
     return await delivery_task_service.get_user_tasks(user_id)
 
 
-@delivery_task_router.get("/getUserActiveTask/{user_id}", response_model=DeliveryTaskResponseDto)
+@delivery_task_router.get("/getUserActiveTask/{user_id}", response_model=DeliveryTaskResponseDto | None)
 async def get_users_active_task(user_id: int):
     result = await delivery_task_service.get_users_active_task(user_id)
     return result

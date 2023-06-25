@@ -11,7 +11,9 @@
                     <n-message-provider>
                         <router-view v-slot="{ Component }">
                             <transition mode="out-in" name="fade">
-                                <component :is="Component"/>
+                                <keep-alive>
+                                    <component :is="Component"/>
+                                </keep-alive>
                             </transition>
                         </router-view>
                     </n-message-provider>
@@ -25,8 +27,6 @@
 import {type Component, computed} from "vue";
 import {useRoute} from "vue-router";
 import {darkTheme, dateRuRU, lightTheme, ruRU} from "naive-ui";
-
-import EmptyLayout from "@shared/ui/layout/TheEmptyLayout.vue";
 import {useRootStore} from "@shared/model/store/useRootStore";
 import themeOverrides from "@app/style/theme/naive-ui-theme-overrides.json";
 import {useUserStore} from "@shared/model/store/useUserStore";
@@ -46,7 +46,7 @@ const {currentUser} = storeToRefs(userStore)
 root.initTheme()
 
 const layout = computed(() => {
-    return route.meta?.layout as Component ?? EmptyLayout
+    return route.meta?.layout as Component || null
 })
 
 const appTheme = computed(() => {

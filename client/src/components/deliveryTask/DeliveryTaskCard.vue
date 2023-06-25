@@ -23,7 +23,7 @@
                     </span>
                 </div>
 
-                <div class="d-flex justify-content-between align-items-center mt-2">
+                <div class="d-flex justify-content-between align-items-center mt-2 text-wrap">
                     <div>
                         {{ deliveryTaskOrder.address }}
                     </div>

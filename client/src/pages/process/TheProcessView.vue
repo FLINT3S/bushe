@@ -8,16 +8,28 @@
             <delivery-task-card v-if="activeDeliveryTask" :delivery-task-item="activeDeliveryTask" check-orders/>
             <n-skeleton v-else height="400px" width="100%"></n-skeleton>
 
-            <n-button :loading="!activeDeliveryTask" size="large" class="mt-3 mx-auto" type="primary" @click="onClickApproveOrder">
+            {{nextOrder}}
+            <div v-if="!nextOrder" class="text-center mt-3">
+                <n-h2 class="mb-2">Все заказы доставлены!</n-h2>
+                <n-h4 class="mt-0">Возвращайтесь на точку</n-h4>
+
+                <n-button @click="onClickEndDelivery" type="primary" size="large">
+                    Закончить доставку
+                </n-button>
+            </div>
+
+            <n-button :loading="!activeDeliveryTask" class="mt-3 mx-auto" size="large" type="primary"
+                      @click="onClickApproveOrder" v-if="nextOrder">
                 Заказ вручён клиенту
             </n-button>
 
-            <div v-if="activeDeliveryTask" id="map" class="map mt-4" style="height: 400px"></div>
-            <n-skeleton v-else class="mt-4" height="400px" width="100%"></n-skeleton>
+            <n-spin :show="!activeDeliveryTask || !routeCreated">
+                <div id="map" class="map mt-4" style="height: 400px"></div>
+            </n-spin>
 
-            <a :href="'https://yandex.ru/maps/?text=' + activeOrder?.address"
-                         class="mt-3 text-decoration-none" target="_blank">
-                <n-button block secondary type="primary" :loading="!activeDeliveryTask">
+            <a :href="'https://yandex.ru/maps/?text=' + toAddress"
+               class="mt-3 text-decoration-none" target="_blank">
+                <n-button :loading="!activeDeliveryTask" block secondary type="primary">
                     Открыть в Яндекс.Картах
                 </n-button>
             </a>
@@ -26,15 +38,19 @@
 </template>
 
 <script lang="ts" setup>
-import deliveryTasks from "@/data/mock/deliveryTasks.json"
 import {DeliveryTask} from "@data/models/DeliveryTask";
 import {plainToInstance} from "class-transformer";
 import DeliveryTaskCard from "@components/deliveryTask/DeliveryTaskCard.vue";
 import {apiInstance} from "@shared/api/apiInstance";
+import {storeToRefs} from "pinia";
+import {useUserStore} from "@shared/model/store/useUserStore";
+import {LocalStorageKeys} from "@shared/model/LocalStorageKeys";
+import {CurrentUser} from "@data/models/CurrentUser";
 
 const dialog = useDialog()
+const router = useRouter()
 const message = useMessage()
-
+const {currentUser} = storeToRefs(useUserStore())
 const activeDeliveryTask = ref<DeliveryTask | null>(null)
 
 const previousOrder = computed(() => {
@@ -46,32 +62,44 @@ const activeOrder = computed(() => {
 })
 
 const nextOrder = computed(() => {
-    const activeOrderIndex = activeDeliveryTask.value?.orders.findIndex(order => order.id === activeOrder.value!.id)
+    if (activeDeliveryTask.value?.orders?.every(order => order.isCompleted)) {
+        return null
+    }
+
+    const activeOrderIndex = activeDeliveryTask.value?.orders?.findIndex(order => order?.id === activeOrder.value?.id)
     if (!activeOrderIndex || activeOrderIndex + 1 >= activeDeliveryTask.value?.orders?.length!) {
         return null
     }
+
     return activeDeliveryTask.value?.orders[activeOrderIndex + 1]
 })
 
-const fetchActiveOrder = () => {
-    apiInstance.get("/")
-    setTimeout(() => {
-        activeDeliveryTask.value = plainToInstance(DeliveryTask, deliveryTasks[0])
+const fromAddress = computed(() => {
+    if (!previousOrder?.value?.address) {
+        return activeOrder.value?.restaurant_address
+    }
 
-        nextTick(() => {
-            deliveryMap = new window.ymaps.Map('map', {
-                center: [55.750625, 37.626],
-                zoom: 7,
-                controls: []
-            }, {
-                buttonMaxWidth: 300
-            })
+    return previousOrder.value.address
+})
 
-            nextTick(() => {
-                // window.ymaps.ready(renderRoute);
-            })
-        })
-    }, 1000)
+const toAddress = computed(() => {
+    if (activeDeliveryTask.value?.orders?.every(order => order.isCompleted)) {
+        return activeDeliveryTask.value?.orders?.[0]?.restaurant_address
+    }
+
+    return activeOrder.value?.address
+})
+
+const fetchActiveOrder = async () => {
+    const res = await apiInstance.get(`/delivery-task/getUserActiveTask/${currentUser.value?.id}`)
+    if (!res) {
+        activeDeliveryTask.value = null
+    }
+    activeDeliveryTask.value = plainToInstance(DeliveryTask, res.data)
+
+    await nextTick(() => {
+        window.ymaps.ready(renderRoute);
+    })
 }
 
 const onClickApproveOrder = () => {
@@ -90,17 +118,43 @@ const onClickApproveOrder = () => {
 }
 
 const onClickConfirmApproveOrder = () => {
-    // Кинуть запрос что заказ доставлен
+    apiInstance.get(`/order/completeOrder/${activeOrder.value?.id}`)
+        .then(() => {
+            fetchActiveOrder()
+        })
+        .catch((e) => {
+            message.error(`Ошибка подтверждения заказа: ${e.message}`)
+        })
 
 }
 
+const onClickEndDelivery = () => {
+    dialog.warning({
+        title: "Завершить доставку?",
+        positiveText: 'Завершить',
+        negativeText: 'Отмена',
+        onPositiveClick: () => {
+            message.success('Доставка завершена!')
+            onClickConfirmApproveEndDelivery()
+        },
+        onNegativeClick: () => {
+        }
+    })
+}
+
+const onClickConfirmApproveEndDelivery = () => {
+    console.log(123)
+}
+
 let deliveryMap = reactive<any>(null)
+const routeCreated = ref(false)
 
 const renderRoute = () => {
+    console.log(fromAddress.value, toAddress.value)
     let multiRoute = new window.ymaps.multiRouter.MultiRoute({
         referencePoints: [
-            previousOrder.value?.address,
-            activeOrder.value?.address
+            fromAddress.value,
+            toAddress.value
         ],
         params: {
             results: 1
@@ -109,19 +163,47 @@ const renderRoute = () => {
         boundsAutoApply: true
     });
 
-    deliveryMap.geoObjects.add(multiRoute);
+    multiRoute.model.events.add('requestsuccess', () => {
+        setTimeout(() => {
+            routeCreated.value = true
+        }, 200)
+    })
+
+    nextTick(() => {
+        deliveryMap.geoObjects.removeAll();
+        deliveryMap.geoObjects.add(multiRoute);
+    })
 }
 
 onMounted(() => {
-    fetchActiveOrder()
+    apiInstance.post("/auth/check", {accessToken: localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN)})
+        .then(response => {
+            currentUser.value = plainToInstance(CurrentUser, response.data)
+            deliveryMap = new window.ymaps.Map('map', {
+                center: [55.750625, 37.626],
+                zoom: 7,
+                controls: []
+            }, {
+                buttonMaxWidth: 300
+            })
+            fetchActiveOrder()
+        })
+        .catch(() => {
+            localStorage.setItem(LocalStorageKeys.ACCESS_TOKEN, "")
+            router.replace("/login")
+        })
+})
+
+onBeforeUnmount(() => {
+    deliveryMap?.destroy()
 })
 </script>
 
 <style lang="scss" scoped>
 .active-task-container {
   @media screen and (min-width: 768px) {
-    max-width: 576px;
-    min-width: 450px;
+    max-width: 520px;
+    min-width: 520px;
   }
 }
 </style>
