@@ -1,4 +1,5 @@
 import os
+from typing import List
 
 from fastapi import APIRouter
 
@@ -19,7 +20,7 @@ async def create_user(delivery_task: DeliveryTaskDTO):
     return await delivery_task_service.create_delivery_task(delivery_task)
 
 
-@delivery_task_router.get("/getUserTasks/{user_id}")
+@delivery_task_router.get("/getUserTasks/{user_id}", response_model=List[DeliveryTaskResponseDto])
 async def get_user_tasks(user_id: int):
     return await delivery_task_service.get_user_tasks(user_id)
 
