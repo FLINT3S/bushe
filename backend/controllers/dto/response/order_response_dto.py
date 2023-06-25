@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -12,4 +13,4 @@ class OrderResponseDto(BaseModel):
     address: str
     weight: int
     status: OrderStatus
-    delivery_task: DeliveryTask
+    delivery_task: Optional[DeliveryTask]

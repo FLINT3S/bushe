@@ -22,3 +22,4 @@ class DeliveryTask(SQLModel, table=True):
     orders: List["Order"] = Relationship(
         back_populates="delivery_task"
     )
+    delivery_way_len: float = Field(default=0)

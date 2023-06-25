@@ -1,4 +1,5 @@
 import os
+from typing import List
 
 from fastapi import APIRouter
 
@@ -22,3 +23,8 @@ async def create_user(order: OrderDTO):
 @order_router.get("/completeOrder/{order_id}", response_model=OrderResponseDto)
 async def complete_order(order_id: int):
     return await order_service.complete_order(order_id)
+
+
+@order_router.get("/getAll", response_model=List[OrderResponseDto])
+async def get_all_orders():
+    return await order_service.get_all_orders()
