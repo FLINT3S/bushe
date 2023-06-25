@@ -47,6 +47,7 @@ import LogoutIcon from "@shared/ui/icon/LogoutIcon.vue";
 
 const deliveryTasks = ref<DeliveryTask[]>([])
 const loading = ref(true)
+const router = useRouter()
 
 const searchQuery = ref("")
 
