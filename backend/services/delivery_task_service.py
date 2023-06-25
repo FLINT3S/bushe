@@ -110,3 +110,10 @@ class DeliveryTaskService:
 
         return delivery_task
 
+    async def change_status(self, delivery_status_id: int, new_status_id: int):
+        delivery_task = await self.get_delivery_task_by_id(delivery_status_id)
+        delivery_task.status_id = new_status_id
+        await self.database_service.save(delivery_task)
+
+        return delivery_task
+

@@ -3,6 +3,7 @@ from typing import List
 
 from fastapi import APIRouter
 
+from controllers.dto.delivery_task_change_status_dto import DeliveryTaskChangeStatusDTO
 from controllers.dto.delivery_task_dto import DeliveryTaskDTO
 from controllers.dto.response.delivery_task_response_dto import DeliveryTaskResponseDto
 from data.databaseservice import DatabaseService
@@ -33,3 +34,8 @@ async def get_users_active_task(user_id: int):
 @delivery_task_router.get("/finish/{delivery_task_id}")
 async def finish_delivery_task(delivery_task_id: int):
     return await delivery_task_service.finish_delivery_task_by_id(delivery_task_id)
+
+@delivery_task_router.post("/change-status")
+async def change_status(delivery_task_change_status: DeliveryTaskChangeStatusDTO):
+    return await delivery_task_service.change_status(delivery_task_change_status.delivery_task_id,
+                                                     delivery_task_change_status.new_status_id)
