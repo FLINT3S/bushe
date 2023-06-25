@@ -8,14 +8,20 @@
                     </n-space>
                 </n-layout-header>
 
-                <n-layout :has-sider="windowWidth >= 992" position="absolute" style="top: 64px; bottom: 0">
+                <n-layout
+                        :has-sider="windowWidth >= 992"
+                        position="absolute"
+                        :native-scrollbar="windowWidth >= 992"
+                        style="top: 64px; bottom: 0"
+                >
                     <n-layout-sider
                             v-if="windowWidth >= 992"
                             :collapsed-width="64"
                             :width="240"
                             bordered
-                            class="sider"
+                            class="sider h-100"
                             collapse-mode="width"
+                            content-style="display: flex; flex-direction: column; height: 100%"
                             inverted
                             show-trigger
                     >
@@ -26,6 +32,16 @@
                                 :value="selectedMenuItem"
                                 inverted
                         />
+
+                        <div class="mt-auto p-3">
+                            <n-button block type="primary" @click="onClickLogout">
+                                Выйти
+
+                                <template #icon>
+                                    <n-icon :component="LogoutIcon"/>
+                                </template>
+                            </n-button>
+                        </div>
                     </n-layout-sider>
 
                     <n-layout-content
@@ -33,15 +49,18 @@
                             :native-scrollbar="false"
                             content-style="padding: 24px 24px 0 24px;"
                     >
-                        <div>
+                        <n-layout
+                                :content-style="windowWidth < 992 ? 'padding-bottom: 86px' : 'padding-bottom: 32px'"
+                                :native-scrollbar="false"
+                        >
                             <slot></slot>
-                        </div>
+                        </n-layout>
                     </n-layout-content>
                 </n-layout>
 
-                <n-layout-footer position="fixed" class="bottom-nav" v-if="windowWidth < 992">
+                <n-layout-footer v-if="windowWidth < 992" class="bottom-nav" position="fixed">
                     <div class="px-3 py-3 d-flex justify-content-around">
-                        <router-link :to="menuItem.path" v-for="menuItem in menuItems">
+                        <router-link v-for="menuItem in menuItems" :to="menuItem.path">
                             <component :is="menuItem.icon(24, route.path === menuItem.path ? 'var(--orange-accent)' : 'white')"/>
                         </router-link>
                     </div>
@@ -54,8 +73,10 @@
 <script lang="ts" setup>
 import {useRootStore} from "@shared/model/store/useRootStore";
 import {menuItems} from "@shared/ui/layout/menu/menuItems";
+import LogoutIcon from "@shared/ui/icon/LogoutIcon.vue";
 
 const route = useRoute()
+const router = useRouter()
 const root = useRootStore()
 
 const windowWidth = ref(0)
@@ -71,6 +92,10 @@ const onClickThemeChange = () => {
 const selectedMenuItem = computed(() => {
     return route.meta.menuItemKey
 })
+
+const onClickLogout = () => {
+    router.push("/logout")
+}
 
 const onWindowResize = () => {
     windowWidth.value = window.innerWidth

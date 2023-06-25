@@ -11,6 +11,10 @@ export const routes: RouteRecordRaw[] = [
         component: () => import("@/pages/auth/TheLoginView.vue")
     },
     {
+        path: "/logout",
+        component: () => import("@/pages/auth/TheLogoutView.vue")
+    },
+    {
         path: '/profile',
         component: () => import('@/pages/profile/TheProfileView.vue'),
         meta: {

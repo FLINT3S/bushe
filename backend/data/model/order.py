@@ -17,7 +17,7 @@ class Order(SQLModel, table=True):
     status: Optional["OrderStatus"] = Relationship(
         back_populates="orders"
     )
-    delivery_task_id: int = Field(foreign_key="deliverytask.id")
+    delivery_task_id: int = Field(foreign_key="deliverytask.id", nullable=True)
     delivery_task: Optional["DeliveryTask"] = Relationship(
         back_populates="orders"
     )
