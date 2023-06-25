@@ -31,19 +31,23 @@ async def get_users_active_task(user_id: int):
     result = await delivery_task_service.get_users_active_task(user_id)
     return result
 
+
 @delivery_task_router.get("/finish/{delivery_task_id}")
 async def finish_delivery_task(delivery_task_id: int):
     return await delivery_task_service.finish_delivery_task_by_id(delivery_task_id)
+
 
 @delivery_task_router.post("/change-status")
 async def change_status(delivery_task_change_status: DeliveryTaskChangeStatusDTO):
     return await delivery_task_service.change_status(delivery_task_change_status.delivery_task_id,
                                                      delivery_task_change_status.new_status_id)
 
-@delivery_task_router.get("/active")
+
+@delivery_task_router.get("/active", response_model=List[DeliveryTaskResponseDto])
 async def get_active_tasks():
     return await delivery_task_service.get_active_tasks()
 
-@delivery_task_router.get("/resolved")
+
+@delivery_task_router.get("/resolved", response_model=List[DeliveryTaskResponseDto])
 async def get_resolved_tasks():
     return await delivery_task_service.get_resolved_tasks()

@@ -15,8 +15,10 @@ class DeliveryTaskService:
         self.database_service = database_service
 
     async def create_delivery_task(self, deliveryTaskDTO: DeliveryTaskDTO):
-        created_delivery_task = DeliveryTask(user_id=deliveryTaskDTO.user_id, status_id=1, delivery_way_len=deliveryTaskDTO.delivery_way_len,
-                                             date=datetime.datetime.combine(datetime.datetime.now().date(), datetime.time(0, 0)))
+        created_delivery_task = DeliveryTask(user_id=deliveryTaskDTO.user_id, status_id=1,
+                                             delivery_way_len=deliveryTaskDTO.delivery_way_len,
+                                             date=datetime.datetime.combine(datetime.datetime.now().date(),
+                                                                            datetime.time(0, 0)))
         await self.database_service.save(created_delivery_task)
 
         for order_id in deliveryTaskDTO.orders:
@@ -97,7 +99,6 @@ class DeliveryTaskService:
             if result:
                 return result[0]
 
-
     async def finish_delivery_task_by_id(self, id: int):
         delivery_task = await self.get_delivery_task_by_id(id)
         orders = delivery_task.orders
@@ -122,6 +123,11 @@ class DeliveryTaskService:
             st = select(DeliveryTask) \
                 .where(DeliveryTask.status_id >= 1) \
                 .where(DeliveryTask.status_id < 4) \
+                .options(
+                selectinload(DeliveryTask.status),
+                selectinload(DeliveryTask.orders),
+                selectinload(DeliveryTask.user)
+            )
 
             result = await session.execute(st)
             tasks = result.scalars().all()
@@ -130,7 +136,12 @@ class DeliveryTaskService:
     async def get_resolved_tasks(self):
         async with AsyncSession(self.database_service.engine) as session:
             st = select(DeliveryTask) \
-                .where(DeliveryTask.status_id == 5)
+                .where(DeliveryTask.status_id == 5) \
+                .options(
+                selectinload(DeliveryTask.status),
+                selectinload(DeliveryTask.orders),
+                selectinload(DeliveryTask.user)
+            )
 
             result = await session.execute(st)
             tasks = result.scalars().all()
