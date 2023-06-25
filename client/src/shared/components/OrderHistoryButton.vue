@@ -1,5 +1,5 @@
 <template>
-  <router-link to="/completed" class="btn-link">
+  <router-link :to="to" class="btn-link">
     <div class="btn__inner d-flex">
       <div class="btn-text flex-grow-1">
         <slot></slot>
@@ -14,6 +14,8 @@
 <script lang="ts" setup>
 import LongRightArrow from "@shared/ui/icon/LongRightArrow.vue";
 const router = useRouter();
+
+const props = defineProps<{to: string}>()
 </script>
 
 <style scoped>

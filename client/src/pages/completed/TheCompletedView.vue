@@ -2,7 +2,7 @@
   <div class="container">
     <n-h1 class="mb-2">завершенные</n-h1>
     <n-divider class="mt-2"/>
-    <OrderHistoryButton>назад в профиль</OrderHistoryButton>
+    <OrderHistoryButton to="/profile">назад в профиль</OrderHistoryButton>
     <div class="empty"></div>
     <div v-if="deliveryTasks.length >= 1 || loading">
       <div v-if="!loading" class="row">

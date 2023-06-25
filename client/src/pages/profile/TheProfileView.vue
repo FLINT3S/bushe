@@ -46,11 +46,17 @@ import {apiInstance} from "@shared/api/apiInstance";
 //   }
 // })
 const stats = ref(null)
-
+const router = useRouter()
 const userStore = useUserStore()
 const courierId = userStore.currentUser?.id
 
+
 onMounted(async ()=>{
+  if (![1, 3].includes(userStore.currentUser!.role)) {
+      await router.replace("/manageOrders")
+      return
+  }
+
   const statsRes = await apiInstance.get(`/user/statistics/${courierId}`)
   if(statsRes) {
     stats.value = statsRes.data

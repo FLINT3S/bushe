@@ -4,7 +4,7 @@
     <div class="stats__widget">
       <StatisticWidget :mode="'заработано'" :values="stats.earned"/>
       <StatisticWidget :mode="'доставлено'" :values="stats.delivered"/>
-      <OrderHistoryButton>история заказов</OrderHistoryButton>
+      <OrderHistoryButton to="/completed">история заказов</OrderHistoryButton>
     </div>
   </div>
 </template>
