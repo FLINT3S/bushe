@@ -1,0 +1,19 @@
+{
+  "common": {
+    "primaryColor": "#F0A72DFF",
+    "primaryColorHover": "#F2BA5DFF",
+    "primaryColorPressed": "#CF8A17FF",
+    "primaryColorSuppl": "#E09D2DFF"
+  },
+  "Menu": {
+    "colorInverted": "#000000FF"
+  },
+  "Card": {
+    "color": "#333333FF"
+  },
+  "Checkbox": {
+    "sizeMedium": "24px",
+    "sizeLarge": "28px",
+    "sizeSmall": "16px"
+  }
+}

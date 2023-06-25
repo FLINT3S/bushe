@@ -3,9 +3,15 @@
         <n-space vertical>
             <n-layout style="height: 100vh">
                 <n-layout-header bordered style="height: 64px; padding: 16px">
-                    <n-space>
-                        <n-h3>буше доставка</n-h3>
-                    </n-space>
+                    <div class="d-flex justify-content-between">
+                        <n-space>
+                            <n-h3>буше доставка</n-h3>
+                        </n-space>
+
+                        <n-button @click="onClickThemeChange">
+                            тема
+                        </n-button>
+                    </div>
                 </n-layout-header>
 
                 <n-layout

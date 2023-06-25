@@ -3,7 +3,7 @@
             :date-locale="dateRuRU"
             :locale="ruRU"
             :theme="appTheme"
-            :theme-overrides="themeOverrides"
+            :theme-overrides="overrides"
     >
         <transition mode="out-in" name="fade">
             <component :is="layout">
@@ -26,7 +26,8 @@ import {type Component, computed} from "vue";
 import {useRoute} from "vue-router";
 import {darkTheme, dateRuRU, lightTheme, ruRU} from "naive-ui";
 import {useRootStore} from "@shared/model/store/useRootStore";
-import themeOverrides from "@app/style/theme/naive-ui-theme-overrides.json";
+import themeOverridesLight from "@app/style/theme/naive-ui-theme-overrides.json";
+import themeOverridesDark from "@app/style/theme/naive-ui-theme-overrides-dark.json";
 import {useUserStore} from "@shared/model/store/useUserStore";
 import {storeToRefs} from "pinia";
 import {apiInstance} from "@shared/api/apiInstance";
@@ -49,6 +50,10 @@ const layout = computed(() => {
 
 const appTheme = computed(() => {
     return root.theme === 'light' ? lightTheme : darkTheme
+})
+
+const overrides = computed(() => {
+    return root.theme === "light" ? themeOverridesLight : themeOverridesDark
 })
 
 onMounted(() => {

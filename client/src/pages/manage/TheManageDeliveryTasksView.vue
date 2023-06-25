@@ -26,6 +26,14 @@
 
             <h3 class="mt-4" style="color: #CACDD0">пока что нет активных задач :(</h3>
         </div>
+
+        <n-button class="mt-3" block type="primary" @click="onClickLogout">
+            Выйти
+
+            <template #icon>
+                <n-icon :component="LogoutIcon"/>
+            </template>
+        </n-button>
     </div>
 </template>
 
@@ -35,11 +43,16 @@ import {DeliveryTask} from "@data/models/DeliveryTask";
 import EmptyIcon from "@shared/ui/icon/EmptyIcon.vue";
 import {apiInstance} from "@shared/api/apiInstance";
 import {plainToInstance} from "class-transformer";
+import LogoutIcon from "@shared/ui/icon/LogoutIcon.vue";
 
 const deliveryTasks = ref<DeliveryTask[]>([])
 const loading = ref(true)
 
 const searchQuery = ref("")
+
+const onClickLogout = () => {
+    router.push("/logout")
+}
 
 const filteredTasks = computed(() => {
     return deliveryTasks.value.filter(t => {
