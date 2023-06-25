@@ -8,7 +8,7 @@
             alt="Фото профиля"
         />
       </div>
-      <div class="profile-card__info">{{ `${user.firstName} ${user.surname}` }}</div>
+      <div class="profile-card__info">{{ `${user.name} ${user.surname}` }}</div>
 
     </div>
     <div class="profile-card__buttons d-flex flex-column">
@@ -19,15 +19,13 @@
 </template>
 
 <script lang="ts" setup>
-// // TODO: user подтянуть из стора
 import EditIcon from "@shared/ui/icon/EditIcon.vue";
 import SettingsIcon from "@shared/ui/icon/SettingsIcon.vue";
+import {useUserStore} from "@shared/model/store/useUserStore";
 
-const user = ref({
-  id: 1,
-  firstName: 'Иван',
-  surname: 'Иванов'
-})
+const userStore = useUserStore()
+const user = ref(userStore.currentUser)
+
 // TODO: computed() из стора
 // const fullName = computed((user) => {
 //   return user.firstName + user.surname
@@ -45,7 +43,7 @@ const user = ref({
   font-size: 24px;
 }
 .profile-card-btn {
-  margin-bottom: 15px;
+  margin-bottom: 2px;
 }
 .card-info {
   font-size: 24px;
