@@ -4,22 +4,22 @@
 
         <n-divider class="mt-2"/>
 
-        <div class="active-task-container d-flex flex-column mx-md-auto">
-            <delivery-task-card v-if="activeDeliveryTask" :delivery-task-item="activeDeliveryTask" check-orders/>
+        <div v-if="activeDeliveryTask || loading" class="active-task-container d-flex flex-column mx-md-auto">
+            <delivery-task-card v-if="activeDeliveryTask && !loading" :delivery-task-item="activeDeliveryTask!" check-orders/>
             <n-skeleton v-else height="400px" width="100%"></n-skeleton>
 
-            {{nextOrder}}
+            {{ nextOrder }}
             <div v-if="!nextOrder" class="text-center mt-3">
                 <n-h2 class="mb-2">Все заказы доставлены!</n-h2>
                 <n-h4 class="mt-0">Возвращайтесь на точку</n-h4>
 
-                <n-button @click="onClickEndDelivery" type="primary" size="large">
+                <n-button size="large" type="primary" @click="onClickEndDelivery">
                     Закончить доставку
                 </n-button>
             </div>
 
-            <n-button :loading="!activeDeliveryTask" class="mt-3 mx-auto" size="large" type="primary"
-                      @click="onClickApproveOrder" v-if="nextOrder">
+            <n-button v-if="nextOrder" :loading="!activeDeliveryTask" class="mt-3 mx-auto" size="large"
+                      type="primary" @click="onClickApproveOrder">
                 Заказ вручён клиенту
             </n-button>
 
@@ -34,6 +34,12 @@
                 </n-button>
             </a>
         </div>
+
+        <div v-else class="d-flex justify-content-center text-center align-items-center mt-4 flex-column">
+            <EmptyIcon/>
+
+            <h3 class="mt-4" style="color: #CACDD0">для вас пока нет доставок :(</h3>
+        </div>
     </div>
 </template>
 
@@ -46,12 +52,14 @@ import {storeToRefs} from "pinia";
 import {useUserStore} from "@shared/model/store/useUserStore";
 import {LocalStorageKeys} from "@shared/model/LocalStorageKeys";
 import {CurrentUser} from "@data/models/CurrentUser";
+import EmptyIcon from "@shared/ui/icon/EmptyIcon.vue";
 
 const dialog = useDialog()
 const router = useRouter()
 const message = useMessage()
 const {currentUser} = storeToRefs(useUserStore())
 const activeDeliveryTask = ref<DeliveryTask | null>(null)
+const loading = ref(true)
 
 const previousOrder = computed(() => {
     return activeDeliveryTask.value?.orders.slice().reverse().find(order => order.isCompleted)
@@ -91,6 +99,8 @@ const toAddress = computed(() => {
 })
 
 const fetchActiveOrder = async () => {
+    loading.value = true
+
     const res = await apiInstance.get(`/delivery-task/getUserActiveTask/${currentUser.value?.id}`)
     if (!res) {
         activeDeliveryTask.value = null
@@ -100,6 +110,8 @@ const fetchActiveOrder = async () => {
     await nextTick(() => {
         window.ymaps.ready(renderRoute);
     })
+
+    loading.value = false
 }
 
 const onClickApproveOrder = () => {
@@ -150,7 +162,6 @@ let deliveryMap = reactive<any>(null)
 const routeCreated = ref(false)
 
 const renderRoute = () => {
-    console.log(fromAddress.value, toAddress.value)
     let multiRoute = new window.ymaps.multiRouter.MultiRoute({
         referencePoints: [
             fromAddress.value,
@@ -170,8 +181,8 @@ const renderRoute = () => {
     })
 
     nextTick(() => {
-        deliveryMap.geoObjects.removeAll();
-        deliveryMap.geoObjects.add(multiRoute);
+        deliveryMap?.geoObjects?.removeAll();
+        deliveryMap?.geoObjects?.add(multiRoute);
     })
 }
 
@@ -179,19 +190,31 @@ onMounted(() => {
     apiInstance.post("/auth/check", {accessToken: localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN)})
         .then(response => {
             currentUser.value = plainToInstance(CurrentUser, response.data)
-            deliveryMap = new window.ymaps.Map('map', {
-                center: [55.750625, 37.626],
-                zoom: 7,
-                controls: []
-            }, {
-                buttonMaxWidth: 300
-            })
+
             fetchActiveOrder()
         })
         .catch(() => {
             localStorage.setItem(LocalStorageKeys.ACCESS_TOKEN, "")
             router.replace("/login")
         })
+})
+
+watch(activeDeliveryTask, () => {
+    nextTick(() => {
+        try {
+            if (!document.querySelector("#map")?.children?.length) {
+                deliveryMap = new window.ymaps.Map('map', {
+                    center: [55.750625, 37.626],
+                    zoom: 7,
+                    controls: []
+                }, {
+                    buttonMaxWidth: 300
+                })
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    })
 })
 
 onBeforeUnmount(() => {
