@@ -4,7 +4,7 @@
       <div class="stats-widget-header align-self-start">{{mode}} за <span>{{statisticMode}}</span></div>
 
       <div class="stats-widget-value d-flex justify-content-center align-items-center">
-        <div class="stats-widget-value__number">{{statisticMode === 'день'? values.perDay : values.perMonth}}</div>
+        <div class="stats-widget-value__number">{{statisticMode === 'день'? (mode==="доставлено"?values.perDay:values.perDay.toFixed(2)) : (mode==="доставлено"?values.perMonth:values.perMonth.toFixed(2))}}</div>
         <div class="stats-widget-value__number currency"
              v-if="mode === 'заработано'"
         >₽</div>
