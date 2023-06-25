@@ -7,7 +7,7 @@ class DeliveryTask(SQLModel, table=True):
     __tablename__ = "deliverytask"
 
     id: Optional[int] = Field(default=None, primary_key=True)
-    user_id: int = Field(foreign_key="user.id")
+    user_id: int = Field(foreign_key="user.id", nullable=True)
     user: Optional["User"] = Relationship(
         back_populates="delivery_tasks"
     )
