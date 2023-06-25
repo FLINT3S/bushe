@@ -13,7 +13,6 @@
 import StatisticWidget from "@components/profile/StatisticWidget.vue";
 import OrderHistoryButton from "@shared/components/OrderHistoryButton.vue";
 
-
 interface Props {
   stats: {
     delivered: {

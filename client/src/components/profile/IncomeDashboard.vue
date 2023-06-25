@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard">
-    <apexchart type="bar" :options="options.options" :series="options.series"></apexchart>
+    <apexchart type="bar" :options="options" :series="options.series"></apexchart>
   </div>
 </template>
 
@@ -19,21 +19,34 @@ interface Props {
 const props = defineProps<Props>()
 
 const options = {
-  options: {
-    chart: {
-      id: 'vuechart-example',
-      offsetY: 4
-    },
-    xaxis: {
-      categories: ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
-    },
-    yaxis: {
-      labels: {
-        show: false,
+  colors: ['#CACDD0'],
+  plotOptions: {
+    bar: {
+      dataLabels: {
+        position: 'top',
       },
-      lines: {
-        show: false
+    },
+  },
+  chart: {
+    toolbar: {
+      tools: {
+        download: false,
+        selection: false,
+        zoom: false,
+        zoomin: false,
+        zoomout: false,
       }
+    },
+  },
+  xaxis: {
+    categories: ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
+  },
+  yaxis: {
+    labels: {
+      show: false,
+    },
+    lines: {
+      show: false
     }
   },
   series: [{
