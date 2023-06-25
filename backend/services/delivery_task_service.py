@@ -64,3 +64,34 @@ class DeliveryTaskService:
             result = (await session.execute(st)).first()
             if result:
                 return result[0]
+
+    async def get_delivery_task_by_id(self, id: int):
+        async with AsyncSession(self.database_service.engine) as session:
+            st = select(DeliveryTask) \
+                .where(DeliveryTask.id == id) \
+                .limit(1) \
+                .options(
+                selectinload(DeliveryTask.status),
+                selectinload(DeliveryTask.orders),
+                selectinload(DeliveryTask.user)
+            )
+
+            result = (await session.execute(st)).first()
+
+            if result:
+                return result[0]
+
+
+    async def finish_delivery_task_by_id(self, id: int):
+        delivery_task = await self.get_delivery_task_by_id(id)
+        print(delivery_task)
+        orders = delivery_task.orders
+
+        for order in orders:
+            order.status_id = 4
+            await self.database_service.save(order)
+        delivery_task.status_id = 5
+        await self.database_service.save(delivery_task)
+
+        return delivery_task
+

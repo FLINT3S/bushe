@@ -29,3 +29,7 @@ async def get_user_tasks(user_id: int):
 async def get_users_active_task(user_id: int):
     result = await delivery_task_service.get_users_active_task(user_id)
     return result
+
+@delivery_task_router.get("/finish/{delivery_task_id}")
+async def finish_delivery_task(delivery_task_id: int):
+    return await delivery_task_service.finish_delivery_task_by_id(delivery_task_id)
